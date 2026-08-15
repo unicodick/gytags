@@ -3,6 +3,6 @@ build/
 bin/
 run/
 out/
-config/
+/config/
 *.iml
 .idea/
