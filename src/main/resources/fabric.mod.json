@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "gytags",
+  "version": "${version}",
+  "name": "Gorodurodov Tags",
+  "description": "shows gy rank on nickname",
+  "icon": "assets/gytags/icon.png",
+  "authors": ["unic"],
+  "contact": {
+    "sources": "https://github.com/unicodick/gytags"
+  },
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["lol.unic.gytags.GytagsClient"]
+  },
+  "mixins": [
+    {
+      "config": "gytags.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.6",
+    "minecraft": "~1.21.11",
+    "java": ">=21",
+    "fabric-api": ">=0.141.3"
+  }
+}

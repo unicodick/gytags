@@ -1,0 +1,67 @@
+plugins {
+	id 'net.fabricmc.fabric-loom-remap' version "${loom_version}"
+	id 'com.modrinth.minotaur' version '2.9.0'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"gytags" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+repositories {
+	// Fabric Loom supplies the Minecraft and Fabric Maven repositories.
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	mappings loom.officialMojangMappings()
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+}
+
+modrinth {
+	token = System.getenv('MODRINTH_TOKEN')
+	projectId = 'kOWoPaqf'
+	versionNumber = project.mod_version
+	versionName = "Gorodurodov Tags ${project.mod_version}"
+	versionType = 'release'
+	uploadFile = remapJar
+	gameVersions = [project.minecraft_version]
+	loaders = ['fabric']
+
+	dependencies {
+		required.project 'fabric-api'
+	}
+}
+
+processResources {
+	inputs.property 'version', project.version
+	filesMatching('fabric.mod.json') {
+		expand 'version': project.version
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.release = 21
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
+}
+
+jar {
+	from('LICENSE') {
+		rename { "${it}_${project.name}" }
+	}
+}
