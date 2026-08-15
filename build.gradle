@@ -33,7 +33,7 @@ modrinth {
 	projectId = 'kOWoPaqf'
 	versionNumber = project.mod_version
 	versionName = "Gorodurodov Tags ${project.mod_version}"
-	versionType = 'release'
+	versionType = 'beta'
 	uploadFile = remapJar
 	gameVersions = [project.minecraft_version]
 	loaders = ['fabric']
