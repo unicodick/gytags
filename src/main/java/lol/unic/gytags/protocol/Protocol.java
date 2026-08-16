@@ -16,11 +16,10 @@ public final class Protocol {
     private Protocol() {
     }
 
-    public static String hello(String token, List<String> nicknames) {
+    public static String hello(List<String> nicknames) {
         JsonObject message = new JsonObject();
         message.addProperty("type", "hello");
         message.addProperty("protocol_version", VERSION);
-        message.addProperty("token", token);
         message.add("nicknames", GSON.toJsonTree(nicknames));
         return GSON.toJson(message);
     }

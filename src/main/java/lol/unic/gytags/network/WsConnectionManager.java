@@ -21,7 +21,6 @@ import java.util.logging.Logger;
 public final class WsConnectionManager {
     private static final Logger LOGGER = Logger.getLogger("gytags/ws");
     private static final String WEBSOCKET_URL = "wss://gytags.unic.lol/ws";
-    private static final String WEBSOCKET_TOKEN = "2031d07d08cb11eecea4a54c54fb04b51ce4a0e154b257c0fff63e7db3530597";
     private static final long MAX_RECONNECT_SECONDS = 30;
 
     private final BadgeCache cache;
@@ -166,7 +165,7 @@ public final class WsConnectionManager {
                     socket.abort();
                 }
                 socket = webSocket;
-                send(webSocket, Protocol.hello(WEBSOCKET_TOKEN, nicknames));
+                send(webSocket, Protocol.hello(nicknames));
             }
             webSocket.request(1);
         }
@@ -238,7 +237,7 @@ public final class WsConnectionManager {
     }
 
     private void handleServerError(WebSocket source, Protocol.Error error) {
-        if (!"unauthorized".equals(error.code()) && !"unsupported_protocol".equals(error.code())) {
+        if (!"unsupported_protocol".equals(error.code())) {
             return;
         }
         synchronized (stateLock) {
