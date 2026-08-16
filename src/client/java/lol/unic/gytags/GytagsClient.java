@@ -17,7 +17,6 @@ import java.nio.file.Path;
 import java.util.List;
 
 public final class GytagsClient implements ClientModInitializer {
-    public static final String MOD_ID = "gytags";
     private static final int PLAYER_REFRESH_INTERVAL_TICKS = 20;
 
     private static BadgeCache cache;
@@ -62,14 +61,6 @@ public final class GytagsClient implements ClientModInitializer {
         }
         connection.updateNicknames(nicknames);
         connection.start();
-    }
-
-    public static GytagsConfig config() {
-        return config;
-    }
-
-    public static BadgeCache cache() {
-        return cache;
     }
 
     private static int setShowInNameTag(boolean show) {

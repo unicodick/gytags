@@ -37,10 +37,6 @@ public final class BadgeCache {
         return entries.get(NicknameNormalizer.normalize(nickname));
     }
 
-    public long revision() {
-        return revision;
-    }
-
     private static void putOrRemove(Map<String, String> entries, Protocol.Member member) {
         String nickname = NicknameNormalizer.normalize(member.nickname());
         if (nickname.isEmpty()) {
