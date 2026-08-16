@@ -6,6 +6,7 @@ import lol.unic.gytags.protocol.Protocol;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
+import java.nio.ByteBuffer;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +23,8 @@ public final class WsConnectionManager {
     private static final Logger LOGGER = Logger.getLogger("gytags/ws");
     private static final String WEBSOCKET_URL = "wss://gytags.unic.lol/ws";
     private static final long MAX_RECONNECT_SECONDS = 30;
+    private static final long HEARTBEAT_INTERVAL_SECONDS = 30;
+    private static final long HEARTBEAT_TIMEOUT_NANOS = TimeUnit.SECONDS.toNanos(90);
 
     private final BadgeCache cache;
     private final HttpClient httpClient;
@@ -34,6 +37,7 @@ public final class WsConnectionManager {
     private ScheduledFuture<?> reconnectTask;
     private long reconnectDelaySeconds = 1;
     private long activeConnectionGeneration;
+    private long lastInboundNanos;
     private volatile boolean reconnectBlocked;
 
     public WsConnectionManager(BadgeCache cache) {
@@ -52,6 +56,12 @@ public final class WsConnectionManager {
             return thread;
         });
         executor.execute(this::connect);
+        executor.scheduleWithFixedDelay(
+                this::heartbeat,
+                HEARTBEAT_INTERVAL_SECONDS,
+                HEARTBEAT_INTERVAL_SECONDS,
+                TimeUnit.SECONDS
+        );
     }
 
     public void stop() {
@@ -127,6 +137,47 @@ public final class WsConnectionManager {
         });
     }
 
+    private void heartbeat() {
+        WebSocket current;
+        boolean timedOut;
+        synchronized (stateLock) {
+            if (!running.get() || socket == null) {
+                return;
+            }
+            current = socket;
+            timedOut = System.nanoTime() - lastInboundNanos >= HEARTBEAT_TIMEOUT_NANOS;
+            if (timedOut) {
+                socket = null;
+            }
+        }
+
+        if (timedOut) {
+            LOGGER.warning("ws heartbeat timed out; reconnecting");
+            current.abort();
+            scheduleReconnect();
+            return;
+        }
+
+        try {
+            current.sendPing(ByteBuffer.allocate(0)).whenComplete((ignored, failure) -> {
+                if (failure != null) {
+                    heartbeatFailed(current, failure);
+                }
+            });
+        } catch (RuntimeException failure) {
+            heartbeatFailed(current, failure);
+        }
+    }
+
+    private void heartbeatFailed(WebSocket current, Throwable failure) {
+        if (!disconnected(current)) {
+            return;
+        }
+        LOGGER.log(Level.FINE, "ws heartbeat failed; reconnecting", failure);
+        current.abort();
+        scheduleReconnect();
+    }
+
     private void scheduleReconnect() {
         if (!running.get() || reconnectBlocked || executor == null) {
             return;
@@ -164,6 +215,7 @@ public final class WsConnectionManager {
                 if (socket != null && socket != webSocket) {
                     socket.abort();
                 }
+                lastInboundNanos = System.nanoTime();
                 socket = webSocket;
                 send(webSocket, Protocol.hello(nicknames));
             }
@@ -172,11 +224,19 @@ public final class WsConnectionManager {
 
         @Override
         public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+            markInbound(webSocket);
             text.append(data);
             if (last) {
                 handleMessage(webSocket, text.toString());
                 text.setLength(0);
             }
+            webSocket.request(1);
+            return CompletableFuture.completedFuture(null);
+        }
+
+        @Override
+        public CompletionStage<?> onPong(WebSocket webSocket, ByteBuffer message) {
+            markInbound(webSocket);
             webSocket.request(1);
             return CompletableFuture.completedFuture(null);
         }
@@ -202,6 +262,14 @@ public final class WsConnectionManager {
     private boolean isCurrentGeneration(long generation) {
         synchronized (stateLock) {
             return running.get() && !reconnectBlocked && activeConnectionGeneration == generation;
+        }
+    }
+
+    private void markInbound(WebSocket source) {
+        synchronized (stateLock) {
+            if (socket == source) {
+                lastInboundNanos = System.nanoTime();
+            }
         }
     }
 
