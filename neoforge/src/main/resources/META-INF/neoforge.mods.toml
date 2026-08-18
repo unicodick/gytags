@@ -1,0 +1,28 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+license="MIT"
+
+[[mods]]
+modId="gutags"
+version="${mod_version}"
+displayName="Gorodurodov Tags"
+logoFile="assets/gutags/icon.png"
+authors="unic"
+description='''Shows Gorodurodov ranks next to player names.'''
+
+[[mixins]]
+config="gutags.client.mixins.json"
+
+[[dependencies.gutags]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.gutags]]
+modId="minecraft"
+type="required"
+versionRange="[${minecraft_version}]"
+ordering="NONE"
+side="CLIENT"
