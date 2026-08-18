@@ -13,8 +13,8 @@ plugins {
 val common = project(":common")
 val commonSourceSet = common.extensions.getByType<SourceSetContainer>().named("main")
 val commonCompileJava = common.tasks.named<JavaCompile>(commonSourceSet.get().compileJavaTaskName)
-val modVersion = providers.gradleProperty("mod_version").get()
 val minecraftVersion = libs.versions.minecraft.get()
+val artifactVersion = project.version.toString()
 
 base {
     archivesName.set("${rootProject.name}-fabric")
@@ -54,12 +54,12 @@ sourceSets["main"].runtimeClasspath += commonSourceSet.get().output
 tasks.named<ProcessResources>("processResources") {
     from(layout.projectDirectory.dir("../common/src/main/resources"))
     dependsOn(":common:processResources")
-    inputs.property("version", modVersion)
+    inputs.property("version", artifactVersion)
     from(layout.projectDirectory.dir("src/main/resources")) {
         exclude("fabric.mod.json")
     }
     from(layout.projectDirectory.file("src/main/resources/fabric.mod.json")) {
-        expand("version" to modVersion)
+        expand("version" to artifactVersion)
     }
 }
 
@@ -78,8 +78,8 @@ tasks.withType<JavaCompile>().configureEach {
 modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
     projectId.set("kOWoPaqf")
-    versionNumber.set(modVersion)
-    versionName.set("Gorodurodov Tags $modVersion (Fabric/Quilt)")
+    versionNumber.set("$artifactVersion-${project.name}")
+    versionName.set("Gorodurodov Tags $artifactVersion (Fabric/Quilt)")
     versionType.set("release")
     uploadFile.set(tasks.named("remapJar"))
     gameVersions.add(minecraftVersion)

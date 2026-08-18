@@ -4,7 +4,10 @@ plugins {
     alias(libs.plugins.modrinth) apply false
 }
 
+val modVersion = providers.gradleProperty("mod_version").get()
+val minecraftVersion = libs.versions.minecraft.get()
+
 allprojects {
     group = providers.gradleProperty("maven_group").get()
-    version = providers.gradleProperty("mod_version").get()
+    version = "$modVersion+mc$minecraftVersion"
 }

@@ -14,9 +14,9 @@ plugins {
 val common = project(":common")
 val commonSourceSet = common.extensions.getByType<SourceSetContainer>().named("main")
 val commonCompileJava = common.tasks.named<JavaCompile>(commonSourceSet.get().compileJavaTaskName)
-val modVersion = providers.gradleProperty("mod_version").get()
 val gameMinecraftVersion = libs.versions.minecraft.get()
 val neoForgeVersion = libs.versions.neoforge.get()
+val artifactVersion = project.version.toString()
 
 base {
     archivesName.set("${rootProject.name}-neoforge")
@@ -59,7 +59,7 @@ tasks.named<ProcessResources>("processResources") {
     dependsOn(":common:processResources")
     inputs.properties(
         mapOf(
-            "mod_version" to modVersion,
+            "mod_version" to artifactVersion,
             "neo_version" to neoForgeVersion,
             "minecraft_version" to gameMinecraftVersion
         )
@@ -71,7 +71,7 @@ tasks.named<ProcessResources>("processResources") {
         include("neoforge.mods.toml")
         into("META-INF")
         expand(
-            "mod_version" to modVersion,
+            "mod_version" to artifactVersion,
             "neo_version" to neoForgeVersion,
             "minecraft_version" to gameMinecraftVersion,
             "minecraft_version_range" to "[$gameMinecraftVersion]"
@@ -94,8 +94,8 @@ tasks.withType<JavaCompile>().configureEach {
 modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
     projectId.set("kOWoPaqf")
-    versionNumber.set(modVersion)
-    versionName.set("Gorodurodov Tags $modVersion (NeoForge)")
+    versionNumber.set("$artifactVersion-${project.name}")
+    versionName.set("Gorodurodov Tags $artifactVersion (NeoForge)")
     versionType.set("release")
     uploadFile.set(tasks.named("jar"))
     gameVersions.add(gameMinecraftVersion)
