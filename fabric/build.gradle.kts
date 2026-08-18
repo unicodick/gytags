@@ -79,7 +79,7 @@ modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
     projectId.set("kOWoPaqf")
     versionNumber.set(modVersion)
-    versionName.set("Gorodurodov Tags $modVersion")
+    versionName.set("Gorodurodov Tags $modVersion (Fabric/Quilt)")
     versionType.set("release")
     uploadFile.set(tasks.named("remapJar"))
     gameVersions.add(minecraftVersion)

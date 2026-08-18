@@ -95,7 +95,7 @@ modrinth {
     token.set(System.getenv("MODRINTH_TOKEN"))
     projectId.set("kOWoPaqf")
     versionNumber.set(modVersion)
-    versionName.set("Gorodurodov Tags $modVersion")
+    versionName.set("Gorodurodov Tags $modVersion (NeoForge)")
     versionType.set("release")
     uploadFile.set(tasks.named("jar"))
     gameVersions.add(gameMinecraftVersion)

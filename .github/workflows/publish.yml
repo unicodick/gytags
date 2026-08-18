@@ -9,6 +9,12 @@ jobs:
   publish:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        loader:
+          - fabric
+          - neoforge
+
     steps:
       - name: Checkout sources
         uses: actions/checkout@v6
@@ -20,6 +26,6 @@ jobs:
           java-version: '21'
 
       - name: Publish to Modrinth
-        run: ./gradlew :fabric:modrinth
+        run: ./gradlew :${{ matrix.loader }}:modrinth
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
