@@ -36,7 +36,7 @@ loom {
     runs {
         named("client") {
             client()
-            runDirectory = file("../run/fabric")
+            runDir = "../run/fabric"
         }
     }
 }

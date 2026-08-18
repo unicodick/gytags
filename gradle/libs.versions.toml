@@ -9,6 +9,6 @@ neoforge = "21.1.248"
 mixin = "0.17.3+mixin.0.8.7"
 
 [plugins]
-fabric-loom = { id = "net.fabricmc.fabric-loom-remap", version.ref = "fabric-loom" }
+fabric-loom = { id = "fabric-loom", version.ref = "fabric-loom" }
 neoforge-moddev = { id = "net.neoforged.moddev", version.ref = "moddev" }
 modrinth = { id = "com.modrinth.minotaur", version.ref = "modrinth" }
