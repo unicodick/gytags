@@ -1,4 +1,4 @@
-package lol.unic.gytags.cache;
+package lol.unic.gutags.cache;
 
 import java.text.Normalizer;
 import java.util.Locale;

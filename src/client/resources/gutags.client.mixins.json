@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "lol.unic.gytags.mixin.client",
+  "package": "lol.unic.gutags.mixin.client",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "EntityRendererMixin"

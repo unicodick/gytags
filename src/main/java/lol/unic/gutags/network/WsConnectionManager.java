@@ -1,7 +1,7 @@
-package lol.unic.gytags.network;
+package lol.unic.gutags.network;
 
-import lol.unic.gytags.cache.BadgeCache;
-import lol.unic.gytags.protocol.Protocol;
+import lol.unic.gutags.cache.BadgeCache;
+import lol.unic.gutags.protocol.Protocol;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -20,8 +20,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class WsConnectionManager {
-    private static final Logger LOGGER = Logger.getLogger("gytags/ws");
-    private static final String WEBSOCKET_URL = "wss://gytags.unic.lol/ws";
+    private static final Logger LOGGER = Logger.getLogger("gutags/ws");
+    private static final String WEBSOCKET_URL = "wss://gutags.unic.lol/ws";
     private static final long MAX_RECONNECT_SECONDS = 30;
     private static final long HEARTBEAT_INTERVAL_SECONDS = 30;
     private static final long HEARTBEAT_TIMEOUT_NANOS = TimeUnit.SECONDS.toNanos(90);
@@ -51,7 +51,7 @@ public final class WsConnectionManager {
         }
         reconnectBlocked = false;
         executor = Executors.newSingleThreadScheduledExecutor(task -> {
-            Thread thread = new Thread(task, "gytags-ws");
+            Thread thread = new Thread(task, "gutags-ws");
             thread.setDaemon(true);
             return thread;
         });

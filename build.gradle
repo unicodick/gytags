@@ -10,7 +10,7 @@ loom {
 	splitEnvironmentSourceSets()
 
 	mods {
-		"gytags" {
+		"gutags" {
 			sourceSet sourceSets.main
 			sourceSet sourceSets.client
 		}
@@ -36,7 +36,7 @@ modrinth {
 	versionType = 'beta'
 	uploadFile = remapJar
 	gameVersions = [project.minecraft_version]
-	loaders = ['fabric']
+	loaders = ['fabric', 'quilt']
 
 	dependencies {
 		required.project 'fabric-api'

@@ -1,4 +1,4 @@
-package lol.unic.gytags;
+package lol.unic.gutags;
 
 import net.minecraft.client.Minecraft;
 

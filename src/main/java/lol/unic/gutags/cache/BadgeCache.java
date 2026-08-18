@@ -1,6 +1,6 @@
-package lol.unic.gytags.cache;
+package lol.unic.gutags.cache;
 
-import lol.unic.gytags.protocol.Protocol;
+import lol.unic.gutags.protocol.Protocol;
 
 import java.util.HashMap;
 import java.util.List;

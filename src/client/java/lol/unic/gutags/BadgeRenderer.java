@@ -1,10 +1,10 @@
-package lol.unic.gytags;
+package lol.unic.gutags;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextColor;
 
-import lol.unic.gytags.cache.BadgeCache;
-import lol.unic.gytags.config.GytagsConfig;
+import lol.unic.gutags.cache.BadgeCache;
+import lol.unic.gutags.config.GutagsConfig;
 
 import java.util.List;
 import java.util.Map;
@@ -28,13 +28,13 @@ public final class BadgeRenderer {
             "team_5", new TeamVisual("⁵", 0x6C009F)
     );
 
-    private static GytagsConfig config;
+    private static GutagsConfig config;
     private static BadgeCache cache;
 
     private BadgeRenderer() {
     }
 
-    public static void configure(GytagsConfig newConfig, BadgeCache newCache) {
+    public static void configure(GutagsConfig newConfig, BadgeCache newCache) {
         config = newConfig;
         cache = newCache;
     }

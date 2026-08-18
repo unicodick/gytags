@@ -1,4 +1,4 @@
-package lol.unic.gytags.protocol;
+package lol.unic.gutags.protocol;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

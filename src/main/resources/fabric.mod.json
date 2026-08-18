@@ -1,22 +1,22 @@
 {
   "schemaVersion": 1,
-  "id": "gytags",
+  "id": "gutags",
   "version": "${version}",
   "name": "Gorodurodov Tags",
   "description": "shows gy rank on nickname",
-  "icon": "assets/gytags/icon.png",
+  "icon": "assets/gutags/icon.png",
   "authors": ["unic"],
   "contact": {
-    "sources": "https://github.com/unicodick/gytags"
+    "sources": "https://github.com/unicodick/gutags"
   },
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
-    "client": ["lol.unic.gytags.GytagsClient"]
+    "client": ["lol.unic.gutags.GutagsClient"]
   },
   "mixins": [
     {
-      "config": "gytags.client.mixins.json",
+      "config": "gutags.client.mixins.json",
       "environment": "client"
     }
   ],

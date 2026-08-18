@@ -6,4 +6,4 @@ pluginManagement {
 	}
 }
 
-rootProject.name = 'gytags'
+rootProject.name = 'gutags'
