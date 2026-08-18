@@ -20,14 +20,13 @@ public final class BadgeRenderer {
             "deputy", 0xD7342A,
             "head", 0x880031
     );
-    private static final Map<String, String> TEAM_SUFFIXES = Map.of(
-            "team_1", "¹",
-            "team_2", "²",
-            "team_3", "³",
-            "team_4", "⁴",
-            "team_5", "⁵"
+    private static final Map<String, TeamVisual> TEAM_VISUALS = Map.of(
+            "team_1", new TeamVisual("¹", 0x0A0A0A),
+            "team_2", new TeamVisual("²", 0xE67E22),
+            "team_3", new TeamVisual("³", 0x931515),
+            "team_4", new TeamVisual("⁴", 0x237C00),
+            "team_5", new TeamVisual("⁵", 0x6C009F)
     );
-    private static final int TEAM_COLOR = 0x9E9E9E;
 
     private static GytagsConfig config;
     private static BadgeCache cache;
@@ -46,16 +45,16 @@ public final class BadgeRenderer {
         }
         List<String> badges = cache.badgesFor(nickname);
         Integer careerColor = null;
-        String teamSuffix = null;
+        TeamVisual teamVisual = null;
         for (String badge : badges) {
             if (careerColor == null) {
                 careerColor = CAREER_COLORS.get(badge);
             }
-            if (teamSuffix == null) {
-                teamSuffix = TEAM_SUFFIXES.get(badge);
+            if (teamVisual == null) {
+                teamVisual = TEAM_VISUALS.get(badge);
             }
         }
-        if (careerColor == null && teamSuffix == null) {
+        if (careerColor == null && teamVisual == null) {
             return original;
         }
 
@@ -68,10 +67,15 @@ public final class BadgeRenderer {
                     .append(Component.literal(" "));
         }
         decorated.append(original.copy());
-        if (teamSuffix != null) {
-            decorated.append(Component.literal(teamSuffix).withStyle(style ->
-                    style.withColor(TextColor.fromRgb(TEAM_COLOR))));
+        if (teamVisual != null) {
+            String suffix = teamVisual.suffix();
+            int color = teamVisual.color();
+            decorated.append(Component.literal(suffix).withStyle(style ->
+                    style.withColor(TextColor.fromRgb(color))));
         }
         return decorated;
+    }
+
+    private record TeamVisual(String suffix, int color) {
     }
 }
