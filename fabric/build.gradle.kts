@@ -54,6 +54,7 @@ sourceSets["main"].runtimeClasspath += commonSourceSet.get().output
 tasks.named<ProcessResources>("processResources") {
     from(layout.projectDirectory.dir("../common/src/main/resources"))
     dependsOn(":common:processResources")
+    inputs.property("version", modVersion)
     from(layout.projectDirectory.dir("src/main/resources")) {
         exclude("fabric.mod.json")
     }
@@ -79,7 +80,7 @@ modrinth {
     projectId.set("kOWoPaqf")
     versionNumber.set(modVersion)
     versionName.set("Gorodurodov Tags $modVersion")
-    versionType.set("beta")
+    versionType.set("release")
     uploadFile.set(tasks.named("remapJar"))
     gameVersions.add(minecraftVersion)
     loaders.addAll("fabric", "quilt")

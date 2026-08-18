@@ -57,6 +57,13 @@ sourceSets["main"].runtimeClasspath += commonSourceSet.get().output
 tasks.named<ProcessResources>("processResources") {
     from(layout.projectDirectory.dir("../common/src/main/resources"))
     dependsOn(":common:processResources")
+    inputs.properties(
+        mapOf(
+            "mod_version" to modVersion,
+            "neo_version" to neoForgeVersion,
+            "minecraft_version" to gameMinecraftVersion
+        )
+    )
     from(layout.projectDirectory.dir("src/main/resources")) {
         exclude("META-INF/neoforge.mods.toml")
     }
@@ -89,7 +96,7 @@ modrinth {
     projectId.set("kOWoPaqf")
     versionNumber.set(modVersion)
     versionName.set("Gorodurodov Tags $modVersion")
-    versionType.set("beta")
+    versionType.set("release")
     uploadFile.set(tasks.named("jar"))
     gameVersions.add(gameMinecraftVersion)
     loaders.add("neoforge")
