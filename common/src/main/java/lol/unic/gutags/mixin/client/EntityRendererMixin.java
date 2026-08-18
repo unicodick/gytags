@@ -7,20 +7,29 @@ import net.minecraft.world.entity.player.Player;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import lol.unic.gutags.client.BadgeRenderer;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin {
-    @Inject(method = "getNameTag", at = @At("RETURN"), cancellable = true)
-    private void gutags$decorateNameTag(Entity entity, CallbackInfoReturnable<Component> callback) {
+    @ModifyArgs(
+            method = "render",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/renderer/entity/EntityRenderer;"
+                            + "renderNameTag(Lnet/minecraft/world/entity/Entity;"
+                            + "Lnet/minecraft/network/chat/Component;"
+                            + "Lcom/mojang/blaze3d/vertex/PoseStack;"
+                            + "Lnet/minecraft/client/renderer/MultiBufferSource;IF)V"
+            )
+    )
+    private void gutags$decorateNameTag(Args args) {
+        Entity entity = args.get(0);
         if (entity instanceof Player) {
-            Component original = callback.getReturnValue();
-            if (original != null) {
-                callback.setReturnValue(BadgeRenderer.decorateName(original, entity.getName().getString()));
-            }
+            Component original = args.get(1);
+            args.set(1, BadgeRenderer.decorateName(original, entity.getName().getString()));
         }
     }
 }
