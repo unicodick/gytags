@@ -63,8 +63,7 @@ public final class BadgeRenderer {
             int color = careerColor;
             decorated
                     .append(Component.literal("◆").withStyle(style ->
-                            style.withColor(TextColor.fromRgb(color))))
-                    .append(Component.literal(" "));
+                            style.withColor(TextColor.fromRgb(color))));
         }
         decorated.append(original.copy());
         if (teamVisual != null) {
