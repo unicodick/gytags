@@ -32,7 +32,7 @@ sourceSets["main"].resources.exclude("META-INF/neoforge.mods.toml")
 neoForge {
     version = neoForgeVersion
     parchment {
-        mappingsVersion = "2025.12.20"
+        mappingsVersion = "2024.11.17"
         minecraftVersion = gameMinecraftVersion
     }
     runs {
