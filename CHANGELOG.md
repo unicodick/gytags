@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1+mc1.21.1
+
+- Added Minecraft 1.21.1 support.
+- Updated artifact and Modrinth versioning.
+
 ## 1.0.0
 
 - Renamed the project from Gytags to Gutags.
