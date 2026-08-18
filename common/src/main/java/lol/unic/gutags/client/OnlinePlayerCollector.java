@@ -1,4 +1,4 @@
-package lol.unic.gutags;
+package lol.unic.gutags.client;
 
 import net.minecraft.client.Minecraft;
 

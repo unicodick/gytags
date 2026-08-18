@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import lol.unic.gutags.BadgeRenderer;
+import lol.unic.gutags.client.BadgeRenderer;
 
 @Mixin(EntityRenderer.class)
 public abstract class EntityRendererMixin {

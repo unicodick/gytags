@@ -38,6 +38,11 @@ public final class BadgeCache {
         return entries.getOrDefault(NicknameNormalizer.normalize(nickname), List.of());
     }
 
+    public synchronized void clear() {
+        entries = Map.of();
+        revision = -1;
+    }
+
     private static void putOrRemove(Map<String, List<String>> entries, Protocol.Member member) {
         String nickname = NicknameNormalizer.normalize(member.nickname());
         if (nickname.isEmpty()) {

@@ -3,7 +3,7 @@
   "id": "gutags",
   "version": "${version}",
   "name": "Gorodurodov Tags",
-  "description": "shows gy rank on nickname",
+  "description": "Shows Gorodurodov ranks next to player names.",
   "icon": "assets/gutags/icon.png",
   "authors": ["unic"],
   "contact": {
@@ -12,7 +12,7 @@
   "license": "MIT",
   "environment": "client",
   "entrypoints": {
-    "client": ["lol.unic.gutags.GutagsClient"]
+    "client": ["lol.unic.gutags.fabric.GutagsFabricClient"]
   },
   "mixins": [
     {
